@@ -1,0 +1,9 @@
+# system, ide
+.DS_Store
+.idea
+
+# src
+node_modules/
+.eslintignore
+.git*
+*.md

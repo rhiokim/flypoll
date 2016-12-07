@@ -1,0 +1,57 @@
+{
+  "name": "bare-api-server",
+  "version": "0.1.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "lint": "eslint 'lib/**/*.js'",
+    "start": "node .",
+    "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1",
+    "docker:images": "docker images | grep bare-api-server",
+    "docker:rm": "docker rm -f bare-api-server",
+    "docker:run": "docker run -dit -p 8082:8082 --name bare-api-server bare-api-server:latest",
+    "docker:build": "docker build --tag bare-api-server . && npm run docker:images"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/rhiokim/bare-api-server.git"
+  },
+  "keywords": [],
+  "author": "Rhio Kim",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/rhiokim/bare-api-server/issues"
+  },
+  "homepage": "https://github.com/rhiokim/bare-api-server#readme",
+  "dependencies": {
+    "express": "^4.14.0",
+    "express-routemap": "^1.0.2",
+    "rimraf": "^2.5.4"
+  },
+  "devDependencies": {
+    "commitizen": "^2.8.6",
+    "conventional-changelog-cli": "^1.2.0",
+    "cz-conventional-changelog": "^1.2.0",
+    "eslint": "^3.10.2",
+    "eslint-config-standard": "^6.2.1",
+    "eslint-plugin-promise": "^3.4.0",
+    "eslint-plugin-standard": "^2.0.1",
+    "ghooks": "^1.3.2",
+    "nsp": "^2.6.2",
+    "validate-commit-msg": "^2.8.2"
+  },
+  "config": {
+    "ghooks": {
+      "pre-commit": "npm run lint"
+    },
+    "validate-commit-msg": {
+      "preset": "angular",
+      "warnOnFail": false,
+      "maxSubjectLength": 100
+    },
+    "commitizen": {
+      "path": "node_modules/cz-conventional-changelog"
+    }
+  }
+}
