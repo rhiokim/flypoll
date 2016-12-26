@@ -26,8 +26,7 @@
   "homepage": "https://github.com/rhiokim/bare-api-server#readme",
   "dependencies": {
     "express": "^4.14.0",
-    "express-routemap": "^1.0.2",
-    "rimraf": "^2.5.4"
+    "express-routemap": "^1.0.2"
   },
   "devDependencies": {
     "commitizen": "^2.8.6",
@@ -39,6 +38,7 @@
     "eslint-plugin-standard": "^2.0.1",
     "ghooks": "^1.3.2",
     "nsp": "^2.6.2",
+    "rimraf": "^2.5.4",
     "validate-commit-msg": "^2.8.2"
   },
   "config": {
