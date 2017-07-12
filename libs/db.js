@@ -4,11 +4,11 @@ const uuid = require('uuid-base62')
 const db = low('db.json')
 db.defaults({ polls: [] }).write()
 
-const createPoll = ({ options }) => {
+const createPoll = ({ options, config }) => {
   options = options.map((option, i) => Object({ id: i, text: option }))
   const uid = uuid.v4()
   const poll = {
-    Id: uid, Options: options, CreatedAt: new Date()
+    Id: uid, Options: options, Config: config, CreatedAt: new Date()
   }
   db.get('polls').push(poll).write()
   // db.get('voted').push({ Id: uid }).write()
@@ -56,7 +56,7 @@ const isVoted = ({ id, ip }) => {
 
 const isOption = ({ id, option }) => {
   const poll = isPoll(id)
-  console.log(id, option)
+
   if (poll) {
     return poll.Options.find(item => item.text === option)
   }

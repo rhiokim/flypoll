@@ -35,10 +35,11 @@ router.get('/:id/:option', (req, res) => {
   }
 
   const { per, choose } = getVotePer(id, option)
+  const { style } = getPoll(req.params).Config || {}
 
   res.setHeader('Content-Type', 'image/svg+xml')
   res.setHeader('Cache-Control', 'private')
-  res.send(svg(id, option, per, choose))
+  res.send(svg(id, option, per, choose, style.width, style.barColor))
 })
 
 router.get('/:id/:option/vote', (req, res) => {
