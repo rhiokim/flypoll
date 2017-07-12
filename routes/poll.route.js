@@ -21,6 +21,11 @@ router.get('/:id', (req, res) => {
   res.json(poll)
 })
 
+router.get('/:id/result', (req, res) => {
+  const result = getVotes(req.params.id)
+  res.json(result)
+})
+
 router.get('/:id/:option', (req, res) => {
   const { id, option } = req.params
 
@@ -44,11 +49,6 @@ router.get('/:id/:option/vote', (req, res) => {
   }
 
   res.send(pDone(200, `Thanks for the voting`, req.headers.referer))
-})
-
-router.get('/:id/result', (req, res) => {
-  const result = getVotes(req.params.id)
-  res.json(result)
 })
 
 module.exports = router
