@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const requestIp = require('request-ip')
-const { createPoll, getPoll, getVotes, getVotePer, voting, isVoted, isOption } = require('../libs/db')
+const { createPoll, getPoll, getVotes, getVotePer, voting, isVoted, getVoteCount, isOption } = require('../libs/db')
 
 const svg = require('../pages/svg')
 const p404 = require('../pages/404')
@@ -35,7 +35,8 @@ router.get('/:id/:option', (req, res) => {
   }
 
   const { per, choose } = getVotePer(id, option)
-  const { style } = getPoll(req.params).Config || {}
+  const poll = getPoll(req.params).Config
+  const style = poll || {}
 
   res.setHeader('Content-Type', 'image/svg+xml')
   res.setHeader('Cache-Control', 'private')
@@ -44,8 +45,9 @@ router.get('/:id/:option', (req, res) => {
 
 router.get('/:id/:option/vote', (req, res) => {
   const ip = requestIp.getClientIp(req)
+  const { maximumVotes } = getPoll(req.params).Config || {maximumVotes: 1}
 
-  if (!isVoted({ id: req.params.id, ip })) {
+  if (getVoteCount({ id: req.params.id, ip }) < maximumVotes) {
     voting(Object.assign({}, req.params, { ip }))
   }
 

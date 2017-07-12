@@ -43,6 +43,7 @@ const getVotePer = (id, text) => {
 }
 
 const voting = ({ id, option, ip }) => {
+  console.log('voting', option)
   db.get(id)
     .push({ text: decodeURIComponent(option), ip, votedAt: new Date() })
     .write()
@@ -52,6 +53,10 @@ const isPoll = (id) => db.get('polls').find({ Id: id }).value()
 
 const isVoted = ({ id, ip }) => {
   return db.get(id).find({ip}).value()
+}
+
+const getVoteCount = ({ id, ip }) => {
+  return db.get(id).filter({ip}).size().value()
 }
 
 const isOption = ({ id, option }) => {
@@ -70,6 +75,7 @@ module.exports = {
   getVote,
   getVotePer,
   isVoted,
+  getVoteCount,
   isOption,
   voting
 }
