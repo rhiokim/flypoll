@@ -1,8 +1,9 @@
 {
-  "name": "seed-api-server",
-  "version": "0.2.0",
-  "description": "",
+  "name": "flypoll",
+  "version": "0.3.0",
+  "description": "Github Poll Generator",
   "main": "index.js",
+  "private": true,
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint 'lib/**/*.js'",
@@ -13,27 +14,33 @@
     "precommit": "npm run lint",
     "commitmsg": "npm run lint:msg",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s -r 1",
-    "docker:images": "docker images | grep seed-api-server",
-    "docker:rm": "docker rm -f seed-api-server",
-    "docker:run": "docker run -dit -p 8082:8082 --name seed-api-server seed-api-server:latest",
-    "docker:build": "docker build --tag seed-api-server . && npm run docker:images"
+    "docker:images": "docker images | grep flypoll",
+    "docker:rm": "docker rm -f flypoll",
+    "docker:run": "docker run -dit -p 8082:8082 --name flypoll flypoll:latest",
+    "docker:build": "docker build --tag flypoll . && npm run docker:images"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/rhiokim/seed-api-server.git"
+    "url": "git+https://github.com/rhiokim/flypoll.git"
   },
   "keywords": [],
   "author": "Rhio Kim",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/rhiokim/seed-api-server/issues"
+    "url": "https://github.com/rhiokim/flypoll/issues"
   },
-  "homepage": "https://github.com/rhiokim/seed-api-server#readme",
+  "homepage": "https://github.com/rhiokim/flypoll#readme",
   "dependencies": {
+    "body-parser": "^1.17.2",
+    "cors": "^2.8.3",
     "express": "^4.15.3",
-    "express-routemap": "^1.1.0"
+    "express-routemap": "^1.1.0",
+    "lowdb": "^0.16.2",
+    "request-ip": "^2.0.2",
+    "uuid-base62": "^0.1.0"
   },
   "devDependencies": {
+    "babel-eslint": "^7.2.3",
     "commitizen": "^2.9.6",
     "conventional-changelog-cli": "^1.3.1",
     "cz-conventional-changelog": "^2.0.0",

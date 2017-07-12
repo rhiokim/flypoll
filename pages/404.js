@@ -1,0 +1,1 @@
+module.exports = require('./error')(404, 'The deployment could not be found')

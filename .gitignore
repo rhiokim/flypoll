@@ -17,3 +17,6 @@ v8.log
 
 # flowtype
 flow-typed
+
+# now-poll
+db.json
