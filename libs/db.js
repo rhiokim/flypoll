@@ -42,6 +42,24 @@ const getVotePer = (id, text) => {
   }
 }
 
+const merge = (data) => {
+  console.log('merge1', data)
+  const polls = db.get('polls')
+
+  data.polls.forEach(poll => {
+    polls.push(poll).write()
+
+    console.log('merge2', poll)
+  })
+
+  delete data['polls']
+
+  for (let uid in data) {
+    console.log('merge3', uid, data[uid])
+    db.set(uid, data[uid]).write()
+  }
+}
+
 const voting = ({ id, option, ip }) => {
   console.log('voting', option)
   db.get(id)
@@ -77,5 +95,6 @@ module.exports = {
   isVoted,
   getVoteCount,
   isOption,
-  voting
+  voting,
+  merge
 }
