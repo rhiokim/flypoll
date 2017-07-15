@@ -1,6 +1,6 @@
 {
   "name": "flypoll",
-  "version": "0.3.0",
+  "version": "0.4.0",
   "description": "Github Poll Generator",
   "main": "index.js",
   "private": true,
