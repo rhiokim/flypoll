@@ -32,7 +32,7 @@
   "homepage": "https://github.com/rhiokim/flypoll#readme",
   "dependencies": {
     "body-parser": "^1.17.2",
-    "cors": "^2.8.3",
+    "cors": "^2.8.4",
     "express": "^4.15.3",
     "express-routemap": "^1.1.0",
     "lowdb": "^0.16.2",
