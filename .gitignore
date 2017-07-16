@@ -20,3 +20,5 @@ flow-typed
 
 # now-poll
 db.json
+.serviceAccountKey.json
+.firebase.json

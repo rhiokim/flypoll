@@ -12,6 +12,7 @@ COPY libs libs
 COPY routes routes
 COPY pages pages
 COPY index.js index.js
+COPY .firebase.json .firebase.json
 COPY package.json package.json
 
 RUN npm install --quiet --no-color --prod

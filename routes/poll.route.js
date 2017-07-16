@@ -2,7 +2,7 @@ const express = require('express')
 const router = express.Router()
 
 const requestIp = require('request-ip')
-const { createPoll, getPoll, getVotes, getVotePer, voting, isVoted, getVoteCount, isOption } = require('../libs/db')
+const { createPoll, getPoll, getVotes, getVotePer, getVoteCount, voting, isPoll, isOption } = require('../libs/firebase')
 
 const svg = require('../pages/svg')
 const p404 = require('../pages/404')
@@ -10,48 +10,53 @@ const pErr = require('../pages/error')
 const pDone = require('../pages/done')
 
 router.route('/')
-  .post((req, res, next) => {
+  .post(async (req, res, next) => {
     const body = req.body
-    const poll = createPoll(body)
-    res.json({ id: poll.Id })
+    res.json(await createPoll(body))
   })
 
-router.get('/:id', (req, res) => {
-  const poll = getPoll(req.params)
+router.get('/:id', async (req, res) => {
+  const poll = await getPoll(req.params)
   res.json(poll)
 })
 
-router.get('/:id/result', (req, res) => {
-  const result = getVotes(req.params.id)
+router.get('/:id/result', async (req, res) => {
+  const result = await getVotes(req.params.id)
   res.json(result)
 })
 
-router.get('/:id/:option', (req, res) => {
+router.get('/:id/:option', async (req, res) => {
   const { id, option } = req.params
 
-  if (!isOption(req.params)) {
+  if (!await isOption(req.params)) {
     res.send(pErr('001', 'Option is not exist'))
     return
   }
 
-  const { per, choose } = getVotePer(id, option)
-  const poll = getPoll(req.params).Config || {}
-  const style = poll.style || {}
+  const { per, choose } = await getVotePer(id, option)
+  const { Config } = await getPoll(req.params)
+  const style = Config.style || {}
 
   res.setHeader('Content-Type', 'image/svg+xml')
   res.setHeader('Cache-Control', 'private')
   res.send(svg(id, option, per, choose, style.width, style.barColor))
 })
 
-router.get('/:id/:option/vote', (req, res) => {
-  const ip = requestIp.getClientIp(req)
-  const { maximumVotes } = getPoll(req.params).Config || {maximumVotes: 1}
-
-  if (getVoteCount({ id: req.params.id, ip }) < maximumVotes) {
-    voting(Object.assign({}, req.params, { ip }))
+router.get('/:id/:option/vote', async (req, res) => {
+  if (!await isPoll(req.params.id)) {
+    res.send(pErr('001', 'Poll is not exist'))
+    return
   }
 
-  res.send(pDone(200, `Thanks for the voting`, req.headers.referer))
+  const ip = requestIp.getClientIp(req)
+  const { Config } = await getPoll(req.params)
+
+  if (await getVoteCount({ id: req.params.id, ip }) < Config.maximumVotes) {
+    await voting(Object.assign({}, req.params, { ip }))
+    res.send(pDone(200, `Thanks for the voting`, req.headers.referer))
+  } else {
+    res.send(pDone(200, `You've already done`, req.headers.referer))
+  }
 })
 
 module.exports = router

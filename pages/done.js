@@ -1,5 +1,5 @@
 module.exports = (code = 200, message = '', referer) => {
-  referer = referer ? `<meta http-equiv="refresh" content="5; url=${referer}"></meta>` : ''
+  referer = referer ? `<meta http-equiv="refresh" content="3; url=${referer}"></meta>` : ''
 
   return `
   <html>
