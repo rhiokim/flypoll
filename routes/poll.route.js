@@ -35,11 +35,11 @@ router.get('/:id/:option', async (req, res) => {
 
   const { per, choose } = await getVotePer(id, option)
   const { Config } = await getPoll(req.params)
-  const style = Config.style || {}
+  // const style = Config.style || {}
 
   res.setHeader('Content-Type', 'image/svg+xml')
   res.setHeader('Cache-Control', 'private')
-  res.send(svg(id, option, per, choose, style.width, style.barColor))
+  res.send(svg(id, option, per, choose, Config))
 })
 
 router.get('/:id/:option/vote', async (req, res) => {

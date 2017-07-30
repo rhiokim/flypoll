@@ -2,13 +2,23 @@ const low = require('lowdb')
 const uuid = require('uuid-base62')
 
 const db = low('db.json')
+const defaultConfig = {
+  maximumVotes: 1,
+  noTitle: false,
+  style: {
+    barColor: '#49aaff',
+    width: 450,
+    marginLeft: 0,
+    marginRight: 0
+  }
+}
 db.defaults({ polls: [] }).write()
 
 const createPoll = ({ options, config }) => {
   options = options.map((option, i) => Object({ id: i, text: option }))
   const uid = uuid.v4()
   const poll = {
-    Id: uid, Options: options, Config: config, CreatedAt: new Date()
+    Id: uid, Options: options, Config: Object.assign(defaultConfig, config), CreatedAt: new Date()
   }
   db.get('polls').push(poll).write()
   // db.get('voted').push({ Id: uid }).write()
